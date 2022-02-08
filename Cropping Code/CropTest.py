@@ -4,7 +4,11 @@ from PIL import Image
 import matplotlib.pyplot as plt
 
 # Get the list of all files and directories
-path = r"C:\Users\OliWo\OneDrive\University\EMAT\Intro to AI\Coursework\histopathologic-cancer-detection\test"
+#path for Oli
+#path = r"C:\Users\OliWo\OneDrive\University\EMAT\Intro to AI\Coursework\histopathologic-cancer-detection\test"
+
+#Path for Matthew
+path = r"C:\Users\matth\OneDrive - University of Bristol\Documents Year 4\Introduction to Artificial Intelligence\Group Project\Data\test"
 
 # to store files in a list
 list = []
@@ -19,7 +23,11 @@ list.sort()
 
 for i in range(len(list)):
     name = list[i]
-    path = "C:/Users/OliWo/OneDrive/University/EMAT/Intro to AI/Coursework/histopathologic-cancer-detection/test/"
+    #path for Oli
+    #path = r"C:\Users\OliWo\OneDrive\University\EMAT\Intro to AI\Coursework\histopathologic-cancer-detection\test"
+
+    #Path for Matthew
+    path = r"C:\Users\matth\OneDrive - University of Bristol\Documents Year 4\Introduction to Artificial Intelligence\Group Project\Data\test"
     im = Image.open(path+name)
 
     width, height = im.size
