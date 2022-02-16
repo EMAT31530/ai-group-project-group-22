@@ -77,7 +77,7 @@ test_labels = test_labels[:9000]
 
 print(test_labels[:5])
 
-#So we no have train_data, train_labels, test_data and test_labels
+#So we now have train_data, train_labels, test_data and test_labels
 
 #Now create alexnet CNN
 
@@ -86,17 +86,17 @@ def alexnet(train_data, test_data, train_labels, test_labels):
     tf.keras.layers.Conv2D(filters=96, kernel_size=(11,11), strides=(4,4), activation='relu', input_shape = (train_data.shape[1:])),
     tf.keras.layers.Lambda(tf.nn.local_response_normalization),
     #NEED TO CHANGE POOL SIZE FROM 3 TO 2
-    tf.keras.layers.MaxPool2D(pool_size=(3,3), strides=(2,2)),
+    tf.keras.layers.MaxPooling2D(pool_size=(3,3), strides=(2,2)),
     tf.keras.layers.Conv2D(filters=256, kernel_size=(5,5), strides=(1,1), activation='relu', padding="same"),
     tf.keras.layers.Lambda(tf.nn.local_response_normalization),
-    tf.keras.layers.MaxPool2D(pool_size=(3,3), strides=(2,2)),
+    tf.keras.layers.MaxPooling2D(pool_size=(3,3), strides=(2,2)),
     tf.keras.layers.Conv2D(filters=384, kernel_size=(3,3), strides=(1,1), activation='relu', padding="same"),
     tf.keras.layers.Lambda(tf.nn.local_response_normalization),
     tf.keras.layers.Conv2D(filters=384, kernel_size=(3,3), strides=(1,1), activation='relu', padding="same"),
     tf.keras.layers.Lambda(tf.nn.local_response_normalization),
     tf.keras.layers.Conv2D(filters=256, kernel_size=(3,3), strides=(1,1), activation='relu', padding="same"),
     tf.keras.layers.Lambda(tf.nn.local_response_normalization),
-    tf.keras.layers.MaxPool2D(pool_size=(3,3), strides=(2,2)),
+    tf.keras.layers.MaxPooling2D(pool_size=(3,3), strides=(2,2)),
     tf.keras.layers.Flatten(),
     tf.keras.layers.Dense(4096, activation='relu'),
     tf.keras.layers.Dropout(0.5),
