@@ -180,6 +180,6 @@ def vgg19(train_data, test_data, train_labels, test_labels):
   # evaluate model on test set here
   results = model.evaluate(test_data, test_labels)
   print(results)
-  return tf.keras.Model(input_image, model)
+  return model #tf.keras.Model(input_image, model)
 
 model = vgg19(train_data, test_data, train_labels, test_labels)
