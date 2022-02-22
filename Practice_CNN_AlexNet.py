@@ -77,7 +77,13 @@ test_labels = np.array(test_labels)
 test_labels = test_labels[:9000]
 
 
-print(test_labels[:5])
+#Checking the paths work
+print('The first 5 images from train_data are: ', train[:5])
+print('And their labels are: ', train_labels[:5])
+print()
+print('The first 5 images from test_data are: ', test[:5])
+print('And their labels are: ', test_labels[:5])
+# #print(type(train))
 
 #So we now have train_data, train_labels, test_data and test_labels
 

@@ -86,11 +86,16 @@ def build_fit_eval_model(train_data, test_data, train_labels, test_labels):
 
   # build model here.
   model = Sequential()
-  #model.add(Conv2D(filters=32, kernel_size=(5,5), padding='same', activation='relu', input_shape = (train_data.shape[1:])))
-  model.add(Conv2D(filters=32, kernel_size=(5,5), padding='same', activation='relu', input_shape = (height, width, channels)))
+  # model.add(Conv2D(filters=32, kernel_size=(5,5), padding='same', activation='relu', input_shape = (height, width, channels)))
+  # model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+  
+  # model.add(Conv2D(filters=64, kernel_size=(5,5), padding='same', activation='relu'))
+  # model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+  
+  model.add(Conv2D(filters=32, kernel_size=(3,3), padding='same', activation='relu', input_shape = (height, width, channels)))
   model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
   
-  model.add(Conv2D(filters=64, kernel_size=(5,5), padding='same', activation='relu'))
+  model.add(Conv2D(filters=64, kernel_size=(3,3), padding='same', activation='relu'))
   model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
 
   model.add(Flatten())

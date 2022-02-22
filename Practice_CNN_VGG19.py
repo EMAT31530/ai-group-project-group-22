@@ -76,7 +76,13 @@ test_labels = np.array(test_labels)
 test_labels = test_labels[:9000]
 
 
-#print(test_labels[:5])
+#Checking the paths work
+print('The first 5 images from train_data are: ', train[:5])
+print('And their labels are: ', train_labels[:5])
+print()
+print('The first 5 images from test_data are: ', test[:5])
+print('And their labels are: ', test_labels[:5])
+# #print(type(train))
 
 #So we no have train_data, train_labels, test_data and test_labels
 
@@ -99,19 +105,12 @@ def vgg19(train_data, test_data, train_labels, test_labels):
   model.add(Conv2D(filters=64, kernel_size=(3,3), activation='relu', padding='same',))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D())  
-  #input_image = tf.keras.layers.Input(train_data.shape[1:])
-  #model = conv_block(64, (3,3), 'relu', use_bn=True)(input_image)
-  #model = conv_block(64, (3,3), 'relu', use_bn=True)(model)
-  #model = tf.keras.layers.MaxPool2D()(model)
 
   model.add(Conv2D(filters=128, kernel_size=(3,3), activation='relu', padding='same',))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(Conv2D(filters=128, kernel_size=(3,3), activation='relu', padding='same',))
   model.add(tf.keras.layers.BatchNormalization())
-  model.add(MaxPooling2D())  
-  # model = conv_block(128, (3,3), 'relu', use_bn=True)(model)
-  # model = conv_block(128, (3,3), 'relu', use_bn=True)(model)
-  # model = tf.keras.layers.MaxPool2D()(model)
+  model.add(MaxPooling2D())
 
   model.add(Conv2D(filters=256, kernel_size=(3,3), activation='relu', padding='same',))
   model.add(tf.keras.layers.BatchNormalization())
@@ -122,11 +121,6 @@ def vgg19(train_data, test_data, train_labels, test_labels):
   model.add(Conv2D(filters=256, kernel_size=(3,3), activation='relu', padding='same',))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D()) 
-  # model = conv_block(256, (3,3), 'relu', use_bn=True)(model)
-  # model = conv_block(256, (3,3), 'relu', use_bn=True)(model)
-  # model = conv_block(256, (3,3), 'relu', use_bn=True)(model)
-  # model = conv_block(256, (3,3), 'relu', use_bn=True)(model)
-  # model = tf.keras.layers.MaxPool2D()(model)
 
   model.add(Conv2D(filters=512, kernel_size=(3,3), activation='relu', padding='same',))
   model.add(tf.keras.layers.BatchNormalization())
@@ -137,11 +131,6 @@ def vgg19(train_data, test_data, train_labels, test_labels):
   model.add(Conv2D(filters=512, kernel_size=(3,3), activation='relu', padding='same',))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D()) 
-  # model = conv_block(512, (3,3), 'relu', use_bn=True)(model)
-  # model = conv_block(512, (3,3), 'relu', use_bn=True)(model)
-  # model = conv_block(512, (3,3), 'relu', use_bn=True)(model)
-  # model = conv_block(512, (3,3), 'relu', use_bn=True)(model)
-  # model = tf.keras.layers.MaxPool2D()(model)
 
   model.add(Conv2D(filters=512, kernel_size=(3,3), activation='relu', padding='same',))
   model.add(tf.keras.layers.BatchNormalization())
@@ -152,27 +141,19 @@ def vgg19(train_data, test_data, train_labels, test_labels):
   model.add(Conv2D(filters=512, kernel_size=(3,3), activation='relu', padding='same',))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D()) 
-  # model = conv_block(512, (3,3), 'relu', use_bn=True)(model)
-  # model = conv_block(512, (3,3), 'relu', use_bn=True)(model)
-  # model = conv_block(512, (3,3), 'relu', use_bn=True)(model)
-  # model = conv_block(512, (3,3), 'relu', use_bn=True)(model)
-  # model = tf.keras.layers.MaxPool2D()(model)
 
   model.add(Flatten())
   model.add(Dense(4096))
   model.add(Dense(4096))
   model.add(Dense(1000, activation='softmax'))
-  # model = tf.keras.layers.Flatten()(model)
-  # model = tf.keras.layers.Dense(4096, activation='relu')(model)
-  # model = tf.keras.layers.Dense(4096, activation='relu')(model)
-  # model = tf.keras.layers.Dense(1000, activation='softmax')(model)
+
 
   
   #required to merge models
   
   
   # compile model here
-  model.compile(loss='binary_crossentropy', optimizer=Adam(0.001), metrics=['accuracy'])
+  model.compile(loss='binary_crossentropy', optimizer=SGD(0.1), metrics=['accuracy'])
 
   # fit model here
   model.fit(train_data, train_labels, epochs=3)
