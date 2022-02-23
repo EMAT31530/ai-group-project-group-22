@@ -41,6 +41,7 @@ def load_train():
     return train_data
         
 train_data = load_train()
+train_data = train_data[0:9000]
 
 def load_test():
     test_data = []
