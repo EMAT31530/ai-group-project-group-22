@@ -61,6 +61,7 @@ def load_test():
     return test_data
         
 test_data = load_test()
+test_data = test_data[0:2000]
 
 print(train_data.shape)
 print(test_data.shape)
@@ -73,7 +74,7 @@ train_labels = train_labels[:9000]
 test_labels = pd.read_csv('C:\\Users\\matth\\OneDrive - University of Bristol\\Documents Year 4\\Introduction to Artificial Intelligence\\Group Project\\Data\\data_labels_test.csv')['label'].tolist()
 test_labels = np.array(test_labels)
 #Given data download messed up have to change the labels size
-test_labels = test_labels[:9000]
+test_labels = test_labels[:2000]
 
 
 #Checking the paths work
@@ -144,8 +145,9 @@ def vgg19(train_data, test_data, train_labels, test_labels):
 
   model.add(Flatten())
   model.add(Dense(4096))
-  model.add(Dense(4096))
-  model.add(Dense(1000, activation='softmax'))
+  model.add(Dense(1000))
+  model.add(Dense(1, activation='sigmoid'))
+  #model.add(Dense(2, activation='softmax'))
 
 
   

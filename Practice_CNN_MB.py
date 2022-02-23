@@ -18,11 +18,11 @@ import tensorflow as tf
 from tensorflow.keras.datasets import cifar10
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras.optimizers import SGD, Adam
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Lambda
 
 
 path_train = 'C:\\Users\\matth\\OneDrive - University of Bristol\\Documents Year 4\\Introduction to Artificial Intelligence\\Group Project\\Data\\train'
@@ -52,6 +52,7 @@ def load_test():
     return test_data
         
 test_data = load_test()
+test_data = test_data[0:2000]
 
 print(train_data.shape)
 print(test_data.shape)
@@ -64,7 +65,7 @@ train_labels = train_labels[:9000]
 test_labels = pd.read_csv('C:\\Users\\matth\\OneDrive - University of Bristol\\Documents Year 4\\Introduction to Artificial Intelligence\\Group Project\\Data\\data_labels_test.csv')['label'].tolist()
 test_labels = np.array(test_labels)
 #Given data download messed up have to change the labels size
-test_labels = test_labels[:9000]
+test_labels = test_labels[:2000]
 
 #Checking the paths work
 print('The first 5 images from train_data are: ', train[:5])
@@ -81,7 +82,7 @@ def build_fit_eval_model(train_data, test_data, train_labels, test_labels):
   height = train_data.shape[1]
   width = train_data.shape[2]
   channels = train_data.shape[3]
-  num_classes = 2
+  num_classes = 1
 
 
   # build model here.
@@ -93,22 +94,28 @@ def build_fit_eval_model(train_data, test_data, train_labels, test_labels):
   # model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
   
   model.add(Conv2D(filters=32, kernel_size=(3,3), padding='same', activation='relu', input_shape = (height, width, channels)))
+  model.add(Lambda(tf.nn.local_response_normalization))
+  model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
   
   model.add(Conv2D(filters=64, kernel_size=(3,3), padding='same', activation='relu'))
+  model.add(Lambda(tf.nn.local_response_normalization))
+  model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
 
   model.add(Flatten())
   model.add(Dense(64))
   model.add(Dense(32))
-  model.add(Dense(num_classes, activation='softmax'))
+  #activation function - https://machinelearningmastery.com/choose-an-activation-function-for-deep-learning/
+  #model.add(Dense(num_classes, activation='softmax'))
+  model.add(Dense(num_classes, activation='sigmoid'))
 
   # compile model here
   #model.compile(loss='binary_crossentropy', optimizer=Adam(0.001), metrics=['accuracy'])
   model.compile(loss='binary_crossentropy', optimizer=SGD(learning_rate=0.001), metrics=['accuracy'])
 
   # fit model here
-  model.fit(train_data, train_labels, epochs=3)
+  model.fit(train_data, train_labels, epochs=100)
 
   # evaluate model on test set here
   results = model.evaluate(test_data, test_labels)

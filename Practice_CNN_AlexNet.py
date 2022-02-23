@@ -62,6 +62,7 @@ def load_test():
     return test_data
         
 test_data = load_test()
+test_data = test_data[0:2000]
 
 print(train_data.shape)
 print(test_data.shape)
@@ -74,7 +75,7 @@ train_labels = train_labels[:9000]
 test_labels = pd.read_csv('C:\\Users\\matth\\OneDrive - University of Bristol\\Documents Year 4\\Introduction to Artificial Intelligence\\Group Project\\Data\\data_labels_test.csv')['label'].tolist()
 test_labels = np.array(test_labels)
 #Given data download messed up have to change the labels size
-test_labels = test_labels[:9000]
+test_labels = test_labels[:2000]
 
 
 #Checking the paths work
@@ -119,16 +120,21 @@ def alexnet(train_data, test_data, train_labels, test_labels):
   model = Sequential()
   model.add(Conv2D(filters=96, kernel_size=(11,11), strides=(4,4), activation='relu', input_shape = (train_data.shape[1:])))
   model.add(Lambda(tf.nn.local_response_normalization))
+  model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D(pool_size=(3,3), strides=(2,2), padding='same'))# data_format="channels_first"))
   model.add(Conv2D(filters=256, kernel_size=(5,5), strides=(2,2), activation='relu', padding="same"))
   model.add(Lambda(tf.nn.local_response_normalization))
+  model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D(pool_size=(3,3), strides=(2,2), padding='same'))# data_format="channels_first"))
   model.add(Conv2D(filters=384, kernel_size=(3,3), strides=(1,1), activation='relu', padding="same"))
   model.add(tf.keras.layers.Lambda(tf.nn.local_response_normalization))
+  model.add(tf.keras.layers.BatchNormalization())
   model.add(Conv2D(filters=384, kernel_size=(3,3), strides=(1,1), activation='relu', padding="same"))
   model.add(tf.keras.layers.Lambda(tf.nn.local_response_normalization))
+  model.add(tf.keras.layers.BatchNormalization())
   model.add(Conv2D(filters=256, kernel_size=(3,3), strides=(1,1), activation='relu', padding="same"))
   model.add(tf.keras.layers.Lambda(tf.nn.local_response_normalization))
+  model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D(pool_size=(3,3), strides=(2,2), padding='same'))# data_format="channels_first"))
   
   model.add(Flatten())
@@ -136,13 +142,28 @@ def alexnet(train_data, test_data, train_labels, test_labels):
   model.add(Dropout(0.5))
   model.add(Dense(4096, activation="relu"))
   model.add(Dropout(0.5))
-  model.add(Dense(2, activation="relu"))
+  # model.add(Dense(2048, activation="relu"))
+  # model.add(Dropout(0.5))
+  # model.add(Dense(1024, activation="relu"))
+  # model.add(Dropout(0.5))
+  # model.add(Dense(512, activation="relu"))
+  # model.add(Dropout(0.5))
+  # model.add(Dense(266, activation="relu"))
+  # model.add(Dropout(0.5))
+  # model.add(Dense(133, activation="relu"))
+  # model.add(Dropout(0.5))
+  # model.add(Dense(50, activation="relu"))
+  # model.add(Dropout(0.5))
+  # model.add(Dense(25, activation="relu"))
+  # model.add(Dropout(0.5))
+  #model.add(Dense(2, activation="relu"))
+  model.add(Dense(1, activation='sigmoid'))
   
   # compile model here
   model.compile(loss='binary_crossentropy', optimizer=Adam(0.001), metrics=['accuracy'])
 
   # fit model here
-  model.fit(train_data, train_labels, epochs=3)
+  model.fit(train_data, train_labels, epochs=10)
 
   # evaluate model on test set here
   results = model.evaluate(test_data, test_labels)
