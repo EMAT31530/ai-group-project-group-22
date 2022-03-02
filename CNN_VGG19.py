@@ -19,7 +19,7 @@ import tensorflow as tf
 from tensorflow.keras.datasets import cifar10
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
+from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Lambda
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 from tensorflow.keras.optimizers import SGD, Adam
 from tensorflow.keras.utils import to_categorical
@@ -88,64 +88,80 @@ print('And their labels are: ', test_labels[:5])
 #So we no have train_data, train_labels, test_data and test_labels
 
 
-def conv_block(channels, kernel_size=(3,3), activation='relu',use_bn=True):
-  model=tf.keras.models.Sequential()
-  model.add(tf.keras.layers.Conv2D(channels, kernel_size=kernel_size, activation=None, padding='same'))
-  if use_bn:
-    model.add(tf.keras.layers.BatchNormalization())
+# def conv_block(channels, kernel_size=(3,3), activation='relu',use_bn=True):
+#   model=tf.keras.models.Sequential()
+#   model.add(tf.keras.layers.Conv2D(channels, kernel_size=kernel_size, activation=None, padding='same'))
+#   if use_bn:
+#     model.add(tf.keras.layers.BatchNormalization())
   
-  if activation=='relu':
-    model.add(tf.keras.layers.ReLU())
-  return model
+#   if activation=='relu':
+#     model.add(tf.keras.layers.ReLU())
+#   return model
 
 def vgg19(train_data, test_data, train_labels, test_labels):
   #Build model here
   model = Sequential()
   model.add(Conv2D(filters=64, kernel_size=(3,3), activation='relu', padding='same', input_shape = (train_data.shape[1:])))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(Conv2D(filters=64, kernel_size=(3,3), activation='relu', padding='same',))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D())  
 
   model.add(Conv2D(filters=128, kernel_size=(3,3), activation='relu', padding='same',))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(Conv2D(filters=128, kernel_size=(3,3), activation='relu', padding='same',))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D())
 
   model.add(Conv2D(filters=256, kernel_size=(3,3), activation='relu', padding='same',))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(Conv2D(filters=256, kernel_size=(3,3), activation='relu', padding='same',))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(Conv2D(filters=256, kernel_size=(3,3), activation='relu', padding='same',))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(Conv2D(filters=256, kernel_size=(3,3), activation='relu', padding='same',))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D()) 
 
   model.add(Conv2D(filters=512, kernel_size=(3,3), activation='relu', padding='same',))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(Conv2D(filters=512, kernel_size=(3,3), activation='relu', padding='same',))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(Conv2D(filters=512, kernel_size=(3,3), activation='relu', padding='same',))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(Conv2D(filters=512, kernel_size=(3,3), activation='relu', padding='same',))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D()) 
 
   model.add(Conv2D(filters=512, kernel_size=(3,3), activation='relu', padding='same',))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(Conv2D(filters=512, kernel_size=(3,3), activation='relu', padding='same',))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(Conv2D(filters=512, kernel_size=(3,3), activation='relu', padding='same',))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(Conv2D(filters=512, kernel_size=(3,3), activation='relu', padding='same',))
+  model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D()) 
 
   model.add(Flatten())
   model.add(Dense(4096))
-  model.add(Dense(1000))
+  model.add(Dense(4096))
   model.add(Dense(1, activation='sigmoid'))
   #model.add(Dense(2, activation='softmax'))
 
@@ -155,10 +171,10 @@ def vgg19(train_data, test_data, train_labels, test_labels):
   
   
   # compile model here
-  model.compile(loss='binary_crossentropy', optimizer=SGD(0.1), metrics=['accuracy'])
+  model.compile(loss='binary_crossentropy', optimizer=Adam(0.001), metrics=['accuracy'])
 
   # fit model here
-  model.fit(train_data, train_labels, epochs=3)
+  model.fit(train_data, train_labels, epochs=10)
 
   # evaluate model on test set here
   results = model.evaluate(test_data, test_labels)
