@@ -24,6 +24,8 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Lambda
 
+#clear all variables at the start of each run
+%reset -f
 
 path_train = 'C:\\Users\\matth\\OneDrive - University of Bristol\\Documents Year 4\\Introduction to Artificial Intelligence\\Group Project\\Data\\train'
 path_test = 'C:\\Users\\matth\\OneDrive - University of Bristol\\Documents Year 4\\Introduction to Artificial Intelligence\\Group Project\\Data\\test'
@@ -99,28 +101,6 @@ def build_fit_eval_model(train_data, test_data, train_labels, test_labels):
   model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
   
-  # model.add(Conv2D(filters=128, kernel_size=(3,3), padding='same', activation='relu', input_shape = (height, width, channels)))
-  # model.add(Lambda(tf.nn.local_response_normalization))
-  # model.add(tf.keras.layers.BatchNormalization())
-  # model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
-  
-  # model.add(Conv2D(filters=64, kernel_size=(3,3), padding='same', activation='relu'))
-  # model.add(Lambda(tf.nn.local_response_normalization))
-  # model.add(tf.keras.layers.BatchNormalization())
-  # model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
-  
-  # model.add(Conv2D(filters=32, kernel_size=(3,3), padding='same', activation='relu'))
-  # model.add(Lambda(tf.nn.local_response_normalization))
-  # model.add(tf.keras.layers.BatchNormalization())
-  # model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
-  
-  # model.add(Conv2D(filters=64, kernel_size=(3,3), padding='same', activation='relu'))
-  # model.add(Lambda(tf.nn.local_response_normalization))
-  # model.add(tf.keras.layers.BatchNormalization())
-  # model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
-  
-  #EVEN OUT THE CLASSES!!!!
-  
   model.add(Flatten())
   model.add(Dense(64))
   model.add(Dense(32))
@@ -130,7 +110,7 @@ def build_fit_eval_model(train_data, test_data, train_labels, test_labels):
   model.add(Dense(num_classes, activation='sigmoid'))
 
   # compile model here
-  model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.001), metrics=['accuracy'])
+  model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.1), metrics=['accuracy'])
   #model.compile(loss='binary_crossentropy', optimizer=SGD(learning_rate=0.001), metrics=['accuracy'])
 
   # fit model here

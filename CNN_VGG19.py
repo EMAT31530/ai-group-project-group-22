@@ -25,6 +25,8 @@ from tensorflow.keras.optimizers import SGD, Adam
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
 
+#clear all variables at the start of each run
+%reset -f
 
 path_train = 'C:\\Users\\matth\\OneDrive - University of Bristol\\Documents Year 4\\Introduction to Artificial Intelligence\\Group Project\\Data\\train'
 path_test = 'C:\\Users\\matth\\OneDrive - University of Bristol\\Documents Year 4\\Introduction to Artificial Intelligence\\Group Project\\Data\\test'
@@ -50,6 +52,7 @@ def load_train():
     return train_data
         
 train_data = load_train()
+train_data = train_data[0:9000]
 
 def load_test():
     test_data = []
