@@ -125,7 +125,7 @@ def build_fit_eval_model(train_data, test_data, train_labels, test_labels):
   model.add(tf.keras.layers.BatchNormalization())
   
   #CHANGED OPTIMIZER TO ADAM
-  model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.000000001), metrics=['accuracy'])
+  model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.001), metrics=['accuracy'])
   
   # fit model here
   model.fit(train_data, train_labels, epochs=5)
