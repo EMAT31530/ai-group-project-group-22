@@ -9,14 +9,14 @@ import os
 from os import listdir
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.image as mpimg
+#import matplotlib.pyplot as plt
+#import matplotlib.image as mpimg
 from PIL import Image
 from matplotlib import patches
 import cv2
 
 import tensorflow as tf
-from tensorflow.keras.datasets import cifar10
+#from tensorflow.keras.datasets import cifar10
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Lambda
@@ -25,22 +25,12 @@ from tensorflow.keras.optimizers import SGD, Adam
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
 
-#clear all variables at the start of each run
-%reset -f
 
 path_train = 'C:\\Users\\matth\\OneDrive - University of Bristol\\Documents Year 4\\Introduction to Artificial Intelligence\\Group Project\\Data\\train'
 path_test = 'C:\\Users\\matth\\OneDrive - University of Bristol\\Documents Year 4\\Introduction to Artificial Intelligence\\Group Project\\Data\\test'
 
 train = listdir(path_train)
 test = listdir(path_test)
-
-#Checking the paths work
-# A = train[:5]
-# B = test[:5]
-# print(A)
-# print()
-# print(B)
-# print(type(train))
 
 def load_train():
     train_data = []
@@ -64,7 +54,7 @@ def load_test():
     return test_data
         
 test_data = load_test()
-test_data = test_data[0:2000]
+test_data = test_data[0:3000]
 
 print(train_data.shape)
 print(test_data.shape)
@@ -77,8 +67,7 @@ train_labels = train_labels[:9000]
 test_labels = pd.read_csv('C:\\Users\\matth\\OneDrive - University of Bristol\\Documents Year 4\\Introduction to Artificial Intelligence\\Group Project\\Data\\data_labels_test.csv')['label'].tolist()
 test_labels = np.array(test_labels)
 #Given data download messed up have to change the labels size
-test_labels = test_labels[:2000]
-
+test_labels = test_labels[:3000]
 
 #Checking the paths work
 print('The first 5 images from train_data are: ', train[:5])
@@ -88,18 +77,6 @@ print('The first 5 images from test_data are: ', test[:5])
 print('And their labels are: ', test_labels[:5])
 # #print(type(train))
 
-#So we no have train_data, train_labels, test_data and test_labels
-
-
-# def conv_block(channels, kernel_size=(3,3), activation='relu',use_bn=True):
-#   model=tf.keras.models.Sequential()
-#   model.add(tf.keras.layers.Conv2D(channels, kernel_size=kernel_size, activation=None, padding='same'))
-#   if use_bn:
-#     model.add(tf.keras.layers.BatchNormalization())
-  
-#   if activation=='relu':
-#     model.add(tf.keras.layers.ReLU())
-#   return model
 
 def vgg19(train_data, test_data, train_labels, test_labels):
   #Build model here
@@ -167,17 +144,13 @@ def vgg19(train_data, test_data, train_labels, test_labels):
   model.add(Dense(4096))
   model.add(Dense(1, activation='sigmoid'))
   #model.add(Dense(2, activation='softmax'))
-
-
-  
-  #required to merge models
   
   
   # compile model here
   model.compile(loss='binary_crossentropy', optimizer=Adam(0.001), metrics=['accuracy'])
 
   # fit model here
-  model.fit(train_data, train_labels, epochs=10)
+  model.fit(train_data, train_labels, epochs=5)
 
   # evaluate model on test set here
   results = model.evaluate(test_data, test_labels)

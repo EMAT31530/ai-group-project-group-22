@@ -26,9 +26,6 @@ from tensorflow.keras.models import Sequential
 # from tensorflow.keras import backend as K
 # K.set_image_dim_ordering('th')
 
-#clear all variables at the start of each run
-%reset -f
-
 path_train = 'C:\\Users\\matth\\OneDrive - University of Bristol\\Documents Year 4\\Introduction to Artificial Intelligence\\Group Project\\Data\\train'
 path_test = 'C:\\Users\\matth\\OneDrive - University of Bristol\\Documents Year 4\\Introduction to Artificial Intelligence\\Group Project\\Data\\test'
 

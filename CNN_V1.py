@@ -24,9 +24,6 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Lambda
 
-#clear all variables at the start of each run
-%reset -f
-
 path_train = 'C:\\Users\\matth\\OneDrive - University of Bristol\\Documents Year 4\\Introduction to Artificial Intelligence\\Group Project\\Data\\train'
 path_test = 'C:\\Users\\matth\\OneDrive - University of Bristol\\Documents Year 4\\Introduction to Artificial Intelligence\\Group Project\\Data\\test'
 
@@ -70,6 +67,7 @@ test_labels = np.array(test_labels)
 #Given data download messed up have to change the labels size
 test_labels = test_labels[:3000]
 
+
 #Checking the paths work
 print('The first 5 images from train_data are: ', train[:5])
 print('And their labels are: ', train_labels[:5])
@@ -110,11 +108,11 @@ def build_fit_eval_model(train_data, test_data, train_labels, test_labels):
   model.add(Dense(num_classes, activation='sigmoid'))
 
   # compile model here
-  model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.1), metrics=['accuracy'])
+  model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.001), metrics=['accuracy'])
   #model.compile(loss='binary_crossentropy', optimizer=SGD(learning_rate=0.001), metrics=['accuracy'])
 
   # fit model here
-  model.fit(train_data, train_labels, epochs=10)
+  model.fit(train_data, train_labels, epochs=5)
 
   # evaluate model on test set here
   results = model.evaluate(test_data, test_labels)
