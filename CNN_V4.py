@@ -120,11 +120,11 @@ def build_fit_eval_model(train_data, test_data, train_labels, test_labels):
   model.add(Dense(num_classes, activation='sigmoid'))
 
   # compile model here
-  model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.001), metrics=['accuracy'])
+  model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.000001), metrics=['accuracy'])
   #model.compile(loss='binary_crossentropy', optimizer=SGD(learning_rate=0.001), metrics=['accuracy'])
 
   # fit model here
-  model.fit(train_data, train_labels, epochs=5)
+  model.fit(train_data, train_labels, epochs=10)
 
   # evaluate model on test set here
   results = model.evaluate(test_data, test_labels)
