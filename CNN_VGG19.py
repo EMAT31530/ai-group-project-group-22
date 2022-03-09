@@ -147,14 +147,28 @@ def vgg19(train_data, test_data, train_labels, test_labels):
   
   
   # compile model here
-  model.compile(loss='binary_crossentropy', optimizer=Adam(0.001), metrics=['accuracy'])
+  model.compile(loss='binary_crossentropy', optimizer=Adam(0.000001), metrics=['accuracy'])
 
   # fit model here
-  model.fit(train_data, train_labels, epochs=5)
+  model.fit(train_data, train_labels, epochs=15)
 
   # evaluate model on test set here
   results = model.evaluate(test_data, test_labels)
   print(results)
+  
+  # predicted_test_vals = (model.predict(test_data))
+  # #print(predicted_test_vals)
+  # print('The first test image is: ', test[0])
+  # print('and its predicted value is: ', predicted_test_vals[0])
+  # print()
+  # print('The first test image is: ', test[1000])
+  # print('and its predicted value is: ', predicted_test_vals[1000])
+  # print()
+  # print('The first test image is: ', test[2000])
+  # print('and its predicted value is: ', predicted_test_vals[2000])
+  # print()
+  # print('The first test image is: ', test[2999])
+  # print('and its predicted value is: ', predicted_test_vals[2999])
   return model #tf.keras.Model(input_image, model)
 
 model = vgg19(train_data, test_data, train_labels, test_labels)
