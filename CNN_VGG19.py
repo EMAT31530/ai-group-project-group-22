@@ -169,6 +169,7 @@ def vgg19(train_data, test_data, train_labels, test_labels):
   # print()
   # print('The first test image is: ', test[2999])
   # print('and its predicted value is: ', predicted_test_vals[2999])
+  
   return model #tf.keras.Model(input_image, model)
 
 model = vgg19(train_data, test_data, train_labels, test_labels)
