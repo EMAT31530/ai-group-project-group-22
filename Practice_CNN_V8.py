@@ -21,7 +21,7 @@ from glob import glob
 #matplotlib inline
 
 
-TRAIN_SIZE = 68445
+TRAIN_SIZE = 500
 #TRAIN_SIZE = 1000
 BATCH_SIZE = 64
 
@@ -50,7 +50,8 @@ train_datagen = ImageDataGenerator(rescale=1/255)
 valid_datagen = ImageDataGenerator(rescale=1/255)
 
 BATCH_SIZE = 64
-train_path = "C://Users//OliWo//OneDrive - University of Bristol//Intro to AI//Data//train"
+#train_path = "C://Users//OliWo//OneDrive - University of Bristol//Intro to AI//Data//train"
+train_path = "C://Users//matth//OneDrive - University of Bristol//Documents Year 4//Introduction to Artificial Intelligence//Group Project//Data//train"
 train_df['label'] = train_df['label'].astype(str)
 valid_df['label'] = valid_df['label'].astype(str)
 
@@ -127,12 +128,16 @@ model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy', tf
 h1 = model.fit(
     x = train_loader,
     steps_per_epoch = TR_STEPS,
-    epochs = 1,
+    epochs = 5,
     validation_data = valid_loader,
     validation_steps = VA_STEPS,
     verbose = 1)
 
+#predicted_test_vals = (model.predict(valid_df))
 predict=model.predict(valid_loader, steps = len(valid_loader.filenames))
+#print(predict_test_vals)
+print(predict)
+print(len(predict))
 
 y_classes = predict.argmax(axis=-1)
 print(y_classes)
