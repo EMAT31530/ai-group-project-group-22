@@ -143,14 +143,14 @@ def vgg19(train_data, test_data, train_labels, test_labels):
   model.add(Dense(4096))
   model.add(Dense(4096))
   model.add(Dense(1, activation='sigmoid'))
-  #model.add(Dense(2, activation='softmax'))
+  #model.add(Dense(1, activation='softmax'))
   
   
   # compile model here
-  model.compile(loss='binary_crossentropy', optimizer=Adam(0.000001), metrics=['accuracy'])
+  model.compile(loss='binary_crossentropy', optimizer=Adam(0.001), metrics=['accuracy'])
 
   # fit model here
-  model.fit(train_data, train_labels, epochs=15)
+  model.fit(train_data, train_labels, epochs=5)
 
   # evaluate model on test set here
   results = model.evaluate(test_data, test_labels)

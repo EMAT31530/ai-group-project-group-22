@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Feb 26 10:38:33 2022
+Created on Tue Feb 15 16:23:09 2022
 
 @author: matth
 """
@@ -90,47 +90,37 @@ def build_fit_eval_model(train_data, test_data, train_labels, test_labels):
   model = Sequential()
 
   
-  model.add(Conv2D(filters=32, kernel_size=(3,3), padding='same', activation='relu', input_shape=(train_data.shape[1:])))
-  model.add(Conv2D(filters=32, kernel_size=(3,3), padding='same', activation='relu'))#, input_shape=(train_data.shape[1:])))
-  model.add(Conv2D(filters=32, kernel_size=(3,3), padding='same', activation='relu'))#, input_shape=(train_data.shape[1:])))
-  #model.add(Lambda(tf.nn.local_response_normalization))
+  model.add(Conv2D(filters=32, kernel_size=(3,3), padding='same', activation='relu', input_shape = (height, width, channels)))
   model.add(tf.keras.layers.BatchNormalization())
-  model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
-  model.add(tf.keras.layers.Dropout(0.4))
-
-
-  model.add(Conv2D(filters=64, kernel_size=(3,3), padding='same', activation='relu'))#, input_shape=(train_data.shape[1:])))
-  model.add(Conv2D(filters=64, kernel_size=(3,3), padding='same', activation='relu'))#, input_shape=(train_data.shape[1:])))
-  model.add(Conv2D(filters=64, kernel_size=(3,3), padding='same', activation='relu'))#, input_shape=(train_data.shape[1:])))
-  #model.add(Lambda(tf.nn.local_response_normalization))
+  model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+  
+  model.add(Conv2D(filters=64, kernel_size=(3,3), padding='same', activation='relu'))
   model.add(tf.keras.layers.BatchNormalization())
-  model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
-  model.add(tf.keras.layers.Dropout(0.3))
-
-
-  model.add(Conv2D(filters=128, kernel_size=(3,3), padding='same', activation='relu'))#, input_shape=(train_data.shape[1:])))
-  model.add(Conv2D(filters=128, kernel_size=(3,3), padding='same', activation='relu'))#, input_shape=(train_data.shape[1:])))
-  model.add(Conv2D(filters=128, kernel_size=(3,3), padding='same', activation='relu'))#, input_shape=(train_data.shape[1:])))
-  #model.add(Lambda(tf.nn.local_response_normalization))
+  model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+  
+  model.add(Conv2D(filters=128, kernel_size=(3,3), padding='same', activation='relu'))
   model.add(tf.keras.layers.BatchNormalization())
-  model.add(MaxPooling2D(pool_size=(2,2),strides=(2,2)))
-  model.add(tf.keras.layers.Dropout(0.2))
+  model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+  
+  model.add(Conv2D(filters=256, kernel_size=(3,3), padding='same', activation='relu'))
+  model.add(tf.keras.layers.BatchNormalization())
+  model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+  
 
 
   model.add(Flatten())
 
+  model.add(Dense(256))
   model.add(Dense(128))
   model.add(Dense(64))
-  model.add(Dense(16))
-  model.add(Dense(8))
-  model.add(Dense(2))
+  model.add(Dense(32))
   model.add(Dense(1, activation='sigmoid'))
   
   #CHANGED OPTIMIZER TO ADAM
   model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.001), metrics=['accuracy'])
   
   # fit model here
-  model.fit(train_data, train_labels, epochs=15)
+  model.fit(train_data, train_labels, epochs=10)
 
   # evaluate model on test set here
   results = model.evaluate(test_data, test_labels)
@@ -153,3 +143,4 @@ def build_fit_eval_model(train_data, test_data, train_labels, test_labels):
   return model
 
 model = build_fit_eval_model(train_data, test_data, train_labels, test_labels)
+

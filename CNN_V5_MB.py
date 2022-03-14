@@ -90,51 +90,63 @@ def build_fit_eval_model(train_data, test_data, train_labels, test_labels):
   model = Sequential()
   
   model.add(Conv2D(filters=32, kernel_size=(3,3), padding='same', activation='relu', input_shape = (height, width, channels)))
-  #model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+  model.add(tf.keras.layers.Dropout(0.1))
   
   model.add(Conv2D(filters=64, kernel_size=(3,3), padding='same', activation='relu'))
-  #model.add(Lambda(tf.nn.local_response_normalization))
   model.add(tf.keras.layers.BatchNormalization())
   model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+  model.add(tf.keras.layers.Dropout(0.1))
+  
+  model.add(Conv2D(filters=128, kernel_size=(3,3), padding='same', activation='relu'))
+  model.add(tf.keras.layers.BatchNormalization())
+  model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+  model.add(tf.keras.layers.Dropout(0.1))
+  
+  model.add(Conv2D(filters=256, kernel_size=(3,3), padding='same', activation='relu'))
+  model.add(tf.keras.layers.BatchNormalization())
+  model.add(MaxPooling2D(pool_size=(2,2), strides=(2,2)))
+  model.add(tf.keras.layers.Dropout(0.1))
+  
+
   
   model.add(Flatten())
+
+  model.add(Dense(256))
+  model.add(Dense(128))
   model.add(Dense(64))
   model.add(Dense(32))
-  #model.add(Dense(16))
-  #activation function - https://machinelearningmastery.com/choose-an-activation-function-for-deep-learning/
-  #model.add(Dense(num_classes, activation='softmax'))
-  model.add(Dense(num_classes, activation='sigmoid'))
+  model.add(Dense(1, activation='sigmoid'))
 
   # compile model here
   model.compile(loss='binary_crossentropy', optimizer=Adam(learning_rate=0.001), metrics=['accuracy'])
   #model.compile(loss='binary_crossentropy', optimizer=SGD(learning_rate=0.001), metrics=['accuracy'])
 
   # fit model here
-  model.fit(train_data, train_labels, epochs=5)
+  model.fit(train_data, train_labels, epochs=10)
 
   # evaluate model on test set here
   results = model.evaluate(test_data, test_labels)
   print(results)
   
-  predicted_test_vals = (model.predict(test_data))
-  #print(predicted_test_vals)
-  print('The first test image is: ', test[0])
-  print('and its predicted value is: ', predicted_test_vals[0])
-  print()
-  print('The first test image is: ', test[1000])
-  print('and its predicted value is: ', predicted_test_vals[1000])
-  print()
-  print('The first test image is: ', test[2000])
-  print('and its predicted value is: ', predicted_test_vals[2000])
-  print()
-  print('The first test image is: ', test[2999])
-  print('and its predicted value is: ', predicted_test_vals[2999])
+  # predicted_test_vals = (model.predict(test_data))
+  # #print(predicted_test_vals)
+  # print('The first test image is: ', test[0])
+  # print('and its predicted value is: ', predicted_test_vals[0])
+  # print()
+  # print('The first test image is: ', test[1000])
+  # print('and its predicted value is: ', predicted_test_vals[1000])
+  # print()
+  # print('The first test image is: ', test[2000])
+  # print('and its predicted value is: ', predicted_test_vals[2000])
+  # print()
+  # print('The first test image is: ', test[2999])
+  # print('and its predicted value is: ', predicted_test_vals[2999])
+
   return model
 
 model = build_fit_eval_model(train_data, test_data, train_labels, test_labels)
-
 
 
 
